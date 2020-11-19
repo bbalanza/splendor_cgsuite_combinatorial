@@ -1,0 +1,26 @@
+/*
+ * Noble.cgs
+ *
+ * Created by jeddie reyna on Oct 20, 2019
+ */
+
+class Noble
+
+    var reqs;
+    var points := 3;
+    
+    // Initializes a Noble Tile with the Required cards needed to get it
+    // All Noble Tiles are worth 3 points
+    method Noble(/* Rubies */ Integer r, /* Emeralds */ Integer e, /* Sapphires */ Integer s, /* Diamonds */ Integer d, /* Obsidian */ Integer o)
+        
+        reqs := {Jewel.Ruby => r, Jewel.Emerald => e, Jewel.Sapphire => s, Jewel.Diamond => d, Jewel.Obsidian => o};
+        
+    end
+    
+    override property ToString.get
+        
+        return "Points: " + this.points.ToString + " Requirements: " + this.reqs.ToString;
+        
+    end
+
+end

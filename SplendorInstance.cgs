@@ -1,0 +1,75 @@
+/*
+ * SplendorPosition.cgs
+ *
+ * Created by crism on Oct 23, 2019
+ */
+// Class that saves a position and returns a game when called 
+class SplendorInstance
+
+var cPJ;
+var oPJ;
+var js;
+var cPPts;
+var oPPts;
+var tP;
+var cPProp;
+var oPProp;
+var player;
+
+// Class constructor
+method SplendorInstance(cPJ, oPJ, js, cPPts, oPPts, tP, cPProp, oPProp, player)
+end
+
+// Gets a position in SplendorCombinatorial with those values 
+property getPosition.get
+    
+    // Returns position with updated values depending on what player's turn it is
+    if player == Player.Left then return SplendorCombinatorial(cPJ, oPJ, js, cPPts, oPPts, tP, cPProp, oPProp); 
+    elseif player == Player.Right then return  SplendorCombinatorial(oPJ, cPJ, js, oPPts, cPPts, tP, oPProp, cPProp);
+    end
+   
+end
+
+
+property getCurrentPlayerJewels.get
+    return cPJ;
+end
+
+property getOppositePlayerJewels.get
+return oPJ;
+end
+
+property getTotalJewels.get
+    return js;
+end
+
+property getCurrentPlayer.get
+    return player;
+end
+
+property getCurrentPlayerProperties.get
+    return cPProp;
+end
+
+property getTotalProperties.get
+    return tP;
+end
+
+property getCurrentPlayerPoints.get
+    return cPPts;
+end
+
+property getOppositePlayerPoints.get
+    return oPPts;
+end
+
+method update(newCPJ ? this.cPJ, newOPJ ? this.oPJ, newJS ? this.js, newCPPts ? this.cPPts, newOPPts ? this.oPPts, newTP ? this.tP, newCPProp ? this.cPProp, newOPProp ? this.oPProp, newPlayer ? this.player);
+
+return SplendorInstance(newCPJ, newOPJ, newJS, newCPPts, newOPPts, newTP, newCPProp, newOPProp, newPlayer);
+
+end
+
+method updateCurrentPlayerJewels(newCPJ)
+    return SplendorInstance(newCPJ, this.oPJ, this.js, this.cPPts, this.oPPts, this.tP, this.cPProp, this.oPProp, this.player);
+end
+end

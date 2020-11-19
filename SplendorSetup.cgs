@@ -1,0 +1,129 @@
+/*
+ * SplendorSetup.cgs
+ *
+ * Created by crism on Oct 20, 2019
+ */
+pLJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 3, Splendor.Jewel.Emerald => 3, Splendor.Jewel.Sapphire => 3, Splendor.Jewel.Diamond => 3, Splendor.Jewel.Obsidian => 3, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Ruby,5,0,3,0,0), Splendor.Property(5,Splendor.Jewel.Emerald,0,4,5,2,0), Splendor.Property(5,Splendor.Jewel.Diamond, 3,2,3,2,1),Splendor.Property(5,Splendor.Jewel.Sapphire,0,1,1,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+
+// Example one
+pLJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 3, Splendor.Jewel.Emerald => 3, Splendor.Jewel.Sapphire => 3, Splendor.Jewel.Diamond => 3, Splendor.Jewel.Obsidian => 3, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Ruby,5,0,3,0,0), Splendor.Property(5,Splendor.Jewel.Emerald,0,4,5,2,0), Splendor.Property(5,Splendor.Jewel.Diamond, 3,2,3,2,1),Splendor.Property(5,Splendor.Jewel.Sapphire,0,1,1,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example two
+pLJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 3, Splendor.Jewel.Emerald => 3, Splendor.Jewel.Sapphire => 3, Splendor.Jewel.Diamond => 3, Splendor.Jewel.Obsidian => 3, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Ruby,5,0,3,0,0), Splendor.Property(5,Splendor.Jewel.Emerald,0,4,5,2,0), Splendor.Property(5,Splendor.Jewel.Diamond, 3,2,3,2,1),Splendor.Property(5,Splendor.Jewel.Sapphire,0,1,1,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,1,1,1,1,0), Splendor.Property(0,Splendor.Jewel.Ruby,1,1,0,1,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example 3 same jewel
+pLJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 3, Splendor.Jewel.Emerald => 3, Splendor.Jewel.Sapphire => 3, Splendor.Jewel.Diamond => 3, Splendor.Jewel.Obsidian => 3, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Ruby,5,0,3,0,0), Splendor.Property(2,Splendor.Jewel.Ruby,2,0,0,0,0), Splendor.Property(5,Splendor.Jewel.Emerald,0,4,5,2,0), Splendor.Property(5,Splendor.Jewel.Diamond, 3,2,3,2,1),Splendor.Property(5,Splendor.Jewel.Sapphire,0,1,1,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example four
+pLJewels := {Splendor.Jewel.Ruby => 1, Splendor.Jewel.Emerald => 1, Splendor.Jewel.Sapphire => 1, Splendor.Jewel.Diamond => 1, Splendor.Jewel.Obsidian => 1};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 3, Splendor.Jewel.Emerald => 3, Splendor.Jewel.Sapphire => 3, Splendor.Jewel.Diamond => 3, Splendor.Jewel.Obsidian => 3, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Sapphire,0,1,1,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example five
+pLJewels := {Splendor.Jewel.Ruby => 1, Splendor.Jewel.Emerald => 1, Splendor.Jewel.Sapphire => 1, Splendor.Jewel.Diamond => 1, Splendor.Jewel.Obsidian => 1};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 1, Splendor.Jewel.Emerald => 1, Splendor.Jewel.Sapphire => 1, Splendor.Jewel.Diamond => 1, Splendor.Jewel.Obsidian => 1, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Sapphire,0,1,1,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example six
+pLJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 2, Splendor.Jewel.Emerald => 2, Splendor.Jewel.Sapphire => 2, Splendor.Jewel.Diamond => 2, Splendor.Jewel.Obsidian => 2, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Sapphire,0,1,1,1,1), Splendor.Property(15,Splendor.Jewel.Emerald,1,1,1,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example seven
+pLJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 1, Splendor.Jewel.Emerald => 1, Splendor.Jewel.Sapphire => 1, Splendor.Jewel.Diamond => 1, Splendor.Jewel.Obsidian => 1, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Sapphire,0,1,1,1,1), Splendor.Property(15,Splendor.Jewel.Emerald,1,1,1,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example eight
+pLJewels := {Splendor.Jewel.Ruby => 1, Splendor.Jewel.Emerald => 1, Splendor.Jewel.Sapphire => 1, Splendor.Jewel.Diamond => 1, Splendor.Jewel.Obsidian => 1};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Sapphire,0,1,1,1,1), Splendor.Property(15,Splendor.Jewel.Emerald,1,1,1,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example nine
+pLJewels := {Splendor.Jewel.Ruby => 1, Splendor.Jewel.Emerald => 1, Splendor.Jewel.Sapphire => 1, Splendor.Jewel.Diamond => 1, Splendor.Jewel.Obsidian => 1};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Sapphire,1,1,1,1,1), Splendor.Property(15,Splendor.Jewel.Emerald,0,1,0,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example ten
+pLJewels := {Splendor.Jewel.Ruby => 1, Splendor.Jewel.Emerald => 1, Splendor.Jewel.Sapphire => 1, Splendor.Jewel.Diamond => 1, Splendor.Jewel.Obsidian => 1};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 1, Splendor.Jewel.Emerald => 1, Splendor.Jewel.Sapphire => 1, Splendor.Jewel.Diamond => 1, Splendor.Jewel.Obsidian => 1, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Sapphire,1,1,1,1,1), Splendor.Property(15,Splendor.Jewel.Emerald,0,1,0,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example eleven
+pLJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+jewels := {Splendor.Jewel.Ruby => 1, Splendor.Jewel.Emerald => 1, Splendor.Jewel.Sapphire => 1, Splendor.Jewel.Diamond => 1, Splendor.Jewel.Obsidian => 1, Splendor.Jewel.Gold => 5};
+properties := {Splendor.Property(5,Splendor.Jewel.Sapphire,1,1,1,1,1), Splendor.Property(15,Splendor.Jewel.Emerald,0,1,0,1,1)};
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+pRProperties := {Splendor.Jewel.Ruby => {}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));
+
+// Example twelve
+
+// Left Player starting jewels
+pLJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+// Right Player starting jewels
+pRJewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0};
+// Total jewels
+jewels := {Splendor.Jewel.Ruby => 0, Splendor.Jewel.Emerald => 0, Splendor.Jewel.Sapphire => 0, Splendor.Jewel.Diamond => 0, Splendor.Jewel.Obsidian => 0, Splendor.Jewel.Gold => 5};
+// Total Properties
+properties := {Splendor.Property(5,Splendor.Jewel.Sapphire,1,1,1,1,1), Splendor.Property(15,Splendor.Jewel.Emerald,0,1,0,1,1)};
+// Left Player starting properties
+pLProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0), Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {}, Splendor.Jewel.Sapphire => {}, Splendor.Jewel.Diamond => {}, Splendor.Jewel.Obsidian => {}};
+// Right Player starting properties
+pRProperties := {Splendor.Jewel.Ruby => {Splendor.Property(0,Splendor.Jewel.Ruby,2,0,1,0,0)}, Splendor.Jewel.Emerald => {Splendor.Property(0,Splendor.Jewel.Emerald,1,1,1,1,0)}, Splendor.Jewel.Sapphire => {Splendor.Property(0,Splendor.Jewel.Sapphire,2,0,1,0,0)}, Splendor.Jewel.Diamond => {Splendor.Property(0,Splendor.Jewel.Diamond,2,0,1,0,0)}, Splendor.Jewel.Obsidian => {Splendor.Property(0,Splendor.Jewel.Obsidian,2,0,1,0,0)}};
+
+ex := Explorer(Splendor.SplendorCombinatorial(pLJewels, pRJewels, jewels, 0,0,properties, pLProperties, pRProperties));

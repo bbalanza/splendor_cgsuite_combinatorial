@@ -1,0 +1,24 @@
+/*
+ * iomanip.cgs
+ *
+ * Created by crism on Oct 24, 2019
+ */
+
+class io
+ // String typedef
+ var n;
+ var s;
+ 
+    method io()
+    n := "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ";
+    s:= "=================================";
+    end
+    
+    property newline.get
+        return this.n;
+    end
+    
+    property separator.get
+        return this.s;
+    end
+end

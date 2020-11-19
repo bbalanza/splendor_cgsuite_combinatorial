@@ -1,0 +1,69 @@
+/*
+ * SplendorCard.cgs
+ *
+ * Class of a card in the game Splendor
+ * 
+ */
+
+
+class Property
+
+    var jewels;
+    var points;
+    var type;
+    var costString;
+    
+    // Initializes a card with that specific points and cost
+   method Property(/* Points */ Integer p, /*Type*/ Jewel t, /* Rubies */ Integer r, /* Emeralds */ Integer e, /* Sapphires */ Integer s, /* Diamonds */ Integer d, /* Obsidian */ Integer o)
+        
+        type := t;
+        points := p;
+        //jewels := { => };
+        jewels := {Jewel.Ruby => r, Jewel.Emerald => e, Jewel.Sapphire => s, Jewel.Diamond => d, Jewel.Obsidian => o};
+        
+        // Insert all of the jewels into the map jewels;
+        costString := " Cost: ";
+        if r != 0 then
+        costString := costString + "Rubies = " + r.ToString + ", ";
+        //jewels[Jewel.Ruby] := r;
+        end
+        if e != 0 then
+        costString := costString + "Emeralds = " + e.ToString + ", ";
+        //jewels[Jewel.Emerald] := e;
+        end
+        if s != 0 then
+        costString := costString + "Sapphires = " + s.ToString + ", ";
+        //jewels[Jewel.Sapphire] := s;
+        end
+        if e != 0 then
+        costString := costString + "Diamonds = " + d.ToString + ", ";
+        //jewels[Jewel.Diamond] := d;
+        end
+        if o != 0 then
+        costString := costString + "Obsidian = " + o.ToString + ".";
+        //jewels[Jewel.Obsidian] := o;
+        end
+        
+        
+    end
+    
+    property getCost.get
+        return jewels;
+    end
+    
+    property getJewel.get
+        return type;
+    end
+    
+    property getPoints.get
+        return points;
+    end
+    
+    override property ToString.get
+    
+    i := io();
+    //return this.type.ToString;
+    return "Points: " + this.points.ToString + i.newline + "Type: " + this.type.ToString + i.newline + this.costString + i.newline ;
+    
+    end
+end

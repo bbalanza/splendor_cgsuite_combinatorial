@@ -1,0 +1,753 @@
+/*
+ * splendor.cgs
+ *
+ * Created by crism on Oct 10, 2019
+ */
+
+
+ class SplendorCombinatorial extends Game
+
+ // Points in the game
+ var pLPoints;
+ var pRPoints;
+
+ // Set of the properties and nobles in the game
+ var properties;
+ var nobles;
+ var jewels;
+
+ // List of properties and nobles, and jewels for player 1;
+ var pLProperties;
+ var pLNobles;
+ var pLJewels;
+
+ // List of properties and nobles and jewels for player 2;
+ var pRProperties;
+ var pRNobles;
+ var pRJewels;
+
+ // Typedef for Jewel enum
+ var Ruby;
+ var Emerald;
+ var Sapphire;
+ var Diamond;
+ var Obsidian;
+ var Gold;
+
+ // List of jewels in the game
+ var jewelTypes;
+
+ method SplendorCombinatorial(pLJ, pRJ, j, pLP, pRP, pr, pLPr, pRPr)
+
+    pLPoints := pLP;
+    pRPoints := pRP;
+
+    // Initialize typedef
+    Ruby := Jewel.Ruby;
+    Emerald := Jewel.Emerald;
+    Sapphire := Jewel.Sapphire;
+    Diamond := Jewel.Diamond;
+    Obsidian := Jewel.Obsidian;
+    Gold := Jewel.Gold;
+    //Initialize  jewel types
+    jewelTypes := {Ruby, Emerald, Sapphire, Diamond, Obsidian};
+
+    pLProperties := pLPr;
+    //pLNobles := [];
+    pLJewels := pLJ;
+
+    pRProperties := pRPr;
+    //pRNobles := [];
+    pRJewels := pRJ;
+
+    properties := pr;
+
+    jewels := j;
+    //this.nobles := {};
+
+    end
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // START OF CODE REGARDING JEWEL CHOOSING
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    // Method that returns whether the total jewel pile is empty
+    method jewelsIsEmpty(j)
+        for k in jewelTypes do
+            if j[k] != 0 then return false end;
+        end
+        return true;
+    end
+    
+    // Method that returns whether the current player has exceeded the maximum of 10 jewels
+    method maxJewelsReached(j)
+    
+        totalJewels := 0;
+        
+        for k in jewelTypes do
+            totalJewels := totalJewels + j[k];
+        end
+        return totalJewels > 10;
+    end
+    
+    // Method that checks wether total property set is empty
+    method totalPropertiesEmpty(p)
+        return p.IsEmpty
+    end
+    
+    // Method that checks wether game is over
+    method gameOver(instance)
+       
+        // Is current player left player?
+        isLeftPlayer := instance.getCurrentPlayer == Player.Left;
+        
+        // Are points greater than or equal to 15?
+        pointsReached := instance.getCurrentPlayerPoints >= 15 or instance.getOppositePlayerPoints >= 15;
+        
+        // Are points reached and current player is left?
+        pointConditionsMet := isLeftPlayer and pointsReached;
+        
+        return pointsReached;
+        //return pointConditionsMet
+        //return instance.getTotalProperties.IsEmpty or pointConditionsMet;
+    
+    end
+
+    // Method that returns the specified jewel pile with one jewel less
+    method removeJewel(jewelPile, jewel)
+        jewelPile[jewel] := jewelPile[jewel] - 1;
+        return jewelPile;
+    end
+
+    // Method that returns the specified jewel pile with one jewel more
+    method addJewel(jewelPile, jewel)
+        jewelPile[jewel] := jewelPile[jewel] + 1;
+        return jewelPile;
+    end
+    
+    // Method that returns the specified jewel pile with two jewels less
+    method removeTwoJewels(jewelPile, j1,j2)
+        jewelPile[j1] := jewelPile[j1] - 1;
+        jewelPile[j2] := jewelPile[j2] - 1;
+        return jewelPile;
+    end
+    
+    // Method that returns the specified jewel pile with two jewels more
+    method addTwoJewels(jewelPile, j1,j2)
+        jewelPile[j1] := jewelPile[j1] + 1;
+        jewelPile[j2] := jewelPile[j2] + 1;
+        return jewelPile;
+    end
+
+    // Method that returns the specified jewel pile with three jewels less
+    method removeThreeJewels(jewelPile, j1,j2,j3)
+        jewelPile[j1] := jewelPile[j1] - 1;
+        jewelPile[j2] := jewelPile[j2] - 1;
+        jewelPile[j3] := jewelPile[j3] - 1;
+        return jewelPile;
+    end
+
+        // Method that returns the specified jewel pile with three jewels more
+    method addThreeJewels(jewelPile, j1,j2,j3)
+        jewelPile[j1] := jewelPile[j1] + 1;
+        jewelPile[j2] := jewelPile[j2] + 1;
+        jewelPile[j3] := jewelPile[j3] + 1;
+        return jewelPile;
+    end    
+    
+    // Method to add an option to the game where the current player takes one jewel
+    method addOneJewelOption(instance, j1)
+   
+        // Update the jewel piles
+        cP := addJewel(instance.getCurrentPlayerJewels, j1);
+        js := removeJewel(instance.getTotalJewels, j1);
+        
+        // Update instance
+        instance := instance.update(newCPJ => cP, newJS => js);
+        
+        // Return the updated position
+        return instance.getPosition;
+
+    end
+
+    // Method to add an option to the game where the current player takes two jewels
+    method addTwoJewelsOption(instance, j1, j2)
+    
+        // Update the jewels
+        cP := addTwoJewels(instance.getCurrentPlayerJewels, j1, j2);
+        js := removeTwoJewels(instance.getTotalJewels, j1, j2);
+        
+        // Update instance
+        instance := instance.update(newCPJ => cP, newJS => js);
+        
+        // Return the updated position
+        return instance.getPosition;
+    end
+
+    // Method to add an option to the game where the current player takes three jewels
+    method addThreeJewelsOption(instance, j1, j2, j3)
+        // Update the jewels
+        cP := addThreeJewels(instance.getCurrentPlayerJewels, j1, j2, j3);
+        js := removeThreeJewels(instance.getTotalJewels, j1,j2,j3);
+        
+        // Update instance
+        instance := instance.update(newCPJ => cP, newJS => js);
+        
+        return instance.getPosition;
+    end
+
+    // Method to add an option to the game where the current player takes two of the same jewel
+    method addTwoSameJewelsOption(instance, j)
+    
+        // Update the jewels
+        cP := addTwoJewels(instance.getCurrentPlayerJewels, j, j);
+        js := removeTwoJewels(instance.getTotalJewels, j, j);
+        
+        // Update the instance
+        instance := instance.update(newCPJ => cP, newJS => js);
+        return instance.getPosition;
+    end
+
+
+    // Returns a set with the types of the empty jewel piles
+    method emptyPiles(jP)
+        emptyJewels := {};
+        for k in this.jewelTypes do 
+            if jP[k] == 0 then emptyJewels.Add(k) end
+        end
+        return emptyJewels;
+    end
+
+    // Gets all two combinations of Splendor that include a specific jewel i.e.
+    // [Ruby, Emerald]
+    // [Ruby, Sapphire]
+    // [Ruby, Diamond]
+    // [Ruby, Obsidian]
+    method allTwoCombinationsWithJewel(instance, jewel)
+        options := {};
+        // List of possible jewels for combination
+        setJewels := jewelTypes;
+
+        // Remove the added tile from the combination
+        setJewels.Remove(jewel);
+
+        for k in setJewels do
+            options.Add(addTwoJewelsOption(instance, jewel, k));
+        end
+        return options;
+    end
+
+    // Returns all three combinations that include a specific jewel i.e.
+    // [Ruby, Emerald, Sapphire]
+    // [Ruby, Sapphire, Diamond]
+    // [Ruby, Emerald, Diamond]
+    // [Ruby, Sapphire, Obsidian]
+    // [Ruby, Emerald, Obsidian]
+    // [Ruby, Diamond, Obsidian]
+    method allThreeCombinationsWithJewel(instance, jewel)
+        options := {};
+        // List of possible jewels for combination
+        setJewels := jewelTypes;
+
+        // Remove the added tile from the combination
+        setJewels.Remove(jewel);
+
+        for k in setJewels do
+            for l in setJewels do
+                if k != l then
+                    options.Add(addThreeJewelsOption(instance, jewel, k, l));
+                end
+            end
+        end
+        return options;
+    end
+
+    // Returns choose three combinations in list with exceptions
+    method allThreeCombinationsWithEx(instance, ex)
+        // Set of options to add to the game
+        options := {};
+        
+        // Set of possible jewels for combination
+        setJewels := jewelTypes;
+
+        // Remove the added tile from the combination
+        setJewels.RemoveAll(ex);
+
+        // Size of list of jewels has to be greater than three
+        if setJewels.Size >= 3 then
+        // Create all possible options with specified jewel piles
+            for k in setJewels do
+                for l in setJewels do
+                    for m in setJewels do
+                        if k != l and k != m and l != m then
+                            options.Add(addThreeJewelsOption(instance, k, l, m));
+                        end
+                    end
+                end
+            end
+        else end
+        // If set of possible jewel matching is less than 3, return an empty set
+        return options;
+    end
+
+    // Returns choose two combinations in list with exceptions
+    method allTwoCombinationsWithEx(instance, ex)
+    
+        // Set of options to add to the game
+        options := {};
+        
+        // List of possible jewels for combination
+        setJewels := jewelTypes;
+
+        // Remove the added tile from the combination
+        setJewels.RemoveAll(ex);
+
+        // Size of list of jewels has to be greater than three
+        if setJewels.Size >= 2 then
+            // Create all possible options with specified jewel piles
+            for k in setJewels do
+                for l in setJewels do
+                    if k != l then
+                        options.Add(addTwoJewelsOption(instance, k, l));
+                    end
+                end
+            end
+        else end
+        // If set of possible jewel matching is less than 3, return an empty set
+        return options;
+    end
+
+    // Returns all choose two combinations
+    method allTwoCombinations(instance)
+        // Total possible options
+        options := {};
+        
+        // Add all possible choose two combinations to the options
+        for k in jewelTypes do
+            for l in jewelTypes do
+                    if k != l then
+                        options.Add(addTwoJewelsOption(instance, k, l));
+                end
+            end
+        end
+        
+        // Return list of all possible options
+        return options;
+    end
+
+    // Returns all choose three combinations
+    method allThreeCombinations(instance)
+        // Total possible options
+        options := {};
+
+        // Add all possible choose three combinations to the options
+        for k in jewelTypes do
+            for l in jewelTypes do
+                for m in jewelTypes do
+                    if k != l and k != m and l != m then
+                        options.Add(addThreeJewelsOption(instance, k, l, m));
+                    end
+                end
+            end
+        end
+
+        return options;
+    end
+
+    // Adds remaning jewel to player's jewel
+    method addRemainingJewel(instance)
+    
+        // Remove all the empty tiles from the possible options to take a jewel from
+        empty := emptyPiles(instance.getTotalJewels);
+        
+        // Create temp jewelTypes set because cannot use .RemoveAll on member variable
+        
+        jewelTypesT := jewelTypes;
+        jewelTypesT.RemoveAll(empty);
+        
+        // If more than one pile with jewels return empty set
+        if jewelTypesT.Size > 1 then return {} end
+        
+        // Only one element in set, but can't access set elements for some reason
+        for k in jewelTypesT do
+            return addOneJewelOption(instance, k);
+        end
+    end
+
+
+    // Add all options were player takes two jewels if there are 4 or more in the pile
+    method takeDoubleJewelOptions(instance)
+        // Set of options
+        options := {};
+        
+        // Temporal variable to get instance's total jewels
+        totalJewels := instance.getTotalJewels;
+        
+        // For all jewels, if there is one that can be selected double, add option
+        for j in jewelTypes do
+            if totalJewels[j] >= 4 then options.Add(addTwoSameJewelsOption(instance, j)) end
+        end
+        return options;
+    end
+    
+    
+    // Gets all possible combinations while there are non-empty piles
+    method allJewelCombinationsWhileNonEmpty(instance)
+
+        // Set for all options
+        options := {};
+
+        // Gets set of empty jewels
+        empty := emptyPiles(instance.getTotalJewels);
+        
+        // If there is still a pile with jewels in it, check if player can grab two jewels
+        if empty.Size == 5 then options.AddAll(takeDoubleJewelOptions(instance)); end;
+        
+        // If there are three jewels to choose from, add all possible options
+        if empty.Size <= 2 then options.AddAll(allThreeCombinationsWithEx(instance, empty));
+        // If there are only two jewels to choose from, add all possible options
+        elseif empty.Size == 3 then  options.AddAll(allTwoCombinationsWithEx(instance, empty));
+        // If there is only one jewel to choose from, add it.
+        elseif empty.Size == 4 then options.Add(addRemainingJewel(instance));
+        // Everything is empty return nothing
+        elseif empty.Size == 5 then options := {};
+        end
+
+        return options;
+    end
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // END OF CODE REGARDING JEWEL CHOOSING
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // START OF CODE REGARDING PROPERTY BUYING
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // Add a property to the players hand if he or she can buy one
+    
+    // Method to check if a property can be bought
+    method canBuyProperty(currentPlayerJewels, currentPlayerProperties, prop)
+    // Property cost
+    cost := prop.getCost;
+    for l in jewelTypes do
+        buyingPowerWithL := currentPlayerBuyingPowerJewel(currentPlayerJewels, currentPlayerProperties,l);
+        costJewelL := cost[l];
+        if buyingPowerWithL < costJewelL then return false end
+    end
+        return true;
+    end
+    
+    // Method that returns the current player's buying power of a specific jewel type
+    method currentPlayerBuyingPowerJewel(currentPlayerJewels, currentPlayerProperties, jewel)
+        return currentPlayerJewels[jewel] + currentPlayerProperties[jewel].Size; 
+    end
+    
+    // Method to remove a property from a specific set of properties
+    method removePropertyFromSet(prop, propertySet)
+        
+        // Temporal variable to hold set
+        temp := propertySet;
+        
+        // Return the set without the property
+        temp.Remove(prop);
+        return temp;
+    
+    end
+    
+        // Method to add a property from a specific set of properties
+    method addPropertyToSet(prop, propertySet)
+        
+        // Temporal variable to hold set
+        temp := propertySet;
+
+        // Return the set with the extra property
+        temp.Add(prop);
+        return temp;
+    
+    end
+    
+    // Method that returns a set of jewels with the cost of a card subtracted
+    method removeCostFromSet(jewelSet, propertySet, prop)
+    //o := io();
+    //Worksheet.Print("Players jewel set before removal: " + jewelSet.ToString + o.newline + o.separator);
+        // For every type of jewel subtract the cost
+        for k in jewelTypes do
+        // If the player has properties do not remove jewels bought with the properties value
+            jewelsToRemove := propertySet[k].Size - prop.getCost[k];
+            
+            //Worksheet.Print(k.ToString + "s to remove from player: " + jewelsToRemove.ToString + o.newline + o.separator);
+            // If you have to use jewels after accounting for the property values
+            if jewelsToRemove < 0 then
+                // Jewels to remove will be negative
+                jewelSet[k] := jewelSet[k] + jewelsToRemove;
+            end
+        end
+        //Worksheet.Print("Players jewel set after removal: " + jewelSet.ToString + o.newline + o.separator);
+        return jewelSet;
+    
+    end
+    
+    // Method that returns a set of jewels with the cost of a card added
+    method addCostToSet(jewelSet, propertySet, prop)
+    
+        // For every type of jewel add the cost
+        for k in jewelTypes do
+        
+            // If the player has property buying power, do not add those jewels to the jewel set
+            jewelsToAdd := propertySet[k].Size - prop.getCost[k];
+            
+            // If the property buying power is not enough to satisfy that card's jewel cost
+            if jewelsToAdd < 0 then
+                // Add that many jewels subtracted from the player to the jewel set
+                m := -1;
+                jewelsToAdd := jewelsToAdd * m;
+                jewelSet[k] := jewelSet[k] + jewelsToAdd;
+            end
+        end
+        
+        return jewelSet;
+    
+    end
+    
+    // Method that returns an instance where a player is added a property from total properties set
+    method addPropertyToPlayer(instance, prop)
+        
+        // Jewel type of the property
+        propertyType := prop.getJewel;
+        
+        // Current player and total properties set
+        currentPlayerProperties := instance.getCurrentPlayerProperties;
+        totalProperties := instance.getTotalProperties;
+        
+        // Since only the property set of the specified type will change, we only need to access that set
+        currentPlayerPropertiesType := currentPlayerProperties[propertyType];
+        
+        // Remove property from totalProperties
+        totalProperties := removePropertyFromSet(prop, totalProperties);
+        
+        // Update property set to currentPlayerTotalProperties
+        currentPlayerProperties[propertyType] := addPropertyToSet(prop, currentPlayerPropertiesType);
+        
+        // Update the instance with new properties piles
+        instance := instance.update(newCPProp => currentPlayerProperties, newTP => totalProperties);
+        return instance;
+
+    end
+    
+    // Method that updates the jewels post property buy
+    method updateJewelsPostBuy(instance, prop)
+        
+        // Save the instance player and total jewel sets
+        playerJewels := instance.getCurrentPlayerJewels;
+        playerProperties := instance.getCurrentPlayerProperties;
+        totalJewels := instance.getTotalJewels;
+        
+       // o := io();
+        //Worksheet.Print("Players jewel set before removal: " + playerJewels.ToString + o.newline + o.separator);
+        // Update the jewel sets
+        playerJewels := removeCostFromSet(playerJewels, playerProperties, prop);
+        //Worksheet.Print("Players jewel set after removal: " + playerJewels.ToString + o.newline + o.separator);
+        totalJewels := addCostToSet(totalJewels, playerProperties, prop);
+        
+        // Return updated insatnce
+        return instance.update(newCPJ => playerJewels, newJS => totalJewels);
+        
+    end
+    
+    // Method that returns instance with the players score updated after a buy
+    method updateCurrentPlayerPoints(instance, prop)
+        
+        // Variable to hold points
+        points := instance.getCurrentPlayerPoints + prop.getPoints;
+        
+        // Return instance
+        return instance.update(newCPPts => points);
+    
+    end
+    
+    // Method that deals with all the logic of buying porperty: 
+    // adding, removing jewels and adding and removing property from their corresponding sets,
+    // and updating the players score
+    
+    method buyProperty(instance, prop)
+    
+        //Update the jewels
+        instance := updateJewelsPostBuy(instance, prop);
+        
+        // Add property to player property set and remove from totalproperty set
+        instance := addPropertyToPlayer(instance,prop);
+        
+        // Update the players score
+        instance := updateCurrentPlayerPoints(instance, prop);
+        
+        
+        return instance;
+    end
+       
+     // Method that returns a list of options of all the instances when a player can buy a property
+    method allPropertyBuys(instance)
+        
+        // Initialize options to empty set
+        options := {};
+        
+        // Initialize total properties, current player jewels and current player properties
+        totalProperties := instance.getTotalProperties;
+        currentPlayerJewels := instance.getCurrentPlayerJewels;
+        currentPlayerProperties := instance.getCurrentPlayerProperties;
+        
+        for k in totalProperties do
+            canAfford := canBuyProperty(currentPlayerJewels, currentPlayerProperties, k);
+            if canAfford == true then
+            // Buy property k
+            options.Add(buyProperty(instance, k).getPosition) end;
+           
+        end
+
+        return options;
+    end
+        
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // END OF CODE REGARDING PROPERTY BUYING
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    override method Options(Player player)
+    
+        // Set of options to return to explorer
+        options := {};
+       
+        if player == Player.Left then
+            instance := SplendorInstance(pLJewels,pRJewels, jewels, pLPoints, pRPoints, properties, pLProperties, pRProperties, player);
+        elseif player == Player.Right then
+            instance := SplendorInstance(pRJewels, pLJewels, jewels, pRPoints, pLPoints, properties, pRProperties, pLProperties, player);
+        end
+
+        
+        if gameOver(instance) == false then
+//              if instance.getCurrentPlayer == Player.Left then
+//              updateJewelsPostBuy(instance, Property(5,Sapphire,1,1,1,1,1));
+//              end
+            options.AddAll(allPropertyBuys(instance));
+            options.AddAll(allJewelCombinationsWhileNonEmpty(instance));
+            return options;
+        else 
+            return {};
+        end
+        
+
+        
+//        if player == Player.Left then
+//        instance := SplendorInstance(pLJewels,pRJewels, jewels, pLPoints, pRPoints, properties, pLProperties, pRProperties, player);
+//            if gameOver(instance) == false then
+                // Tests
+                //for k in instance.getTotalProperties do
+                //Worksheet.Print(" Player jewels " + instance.getCurrentPlayerJewels.ToString + newline);
+                //Worksheet.Print(" Player jewels after subtraction" + removeCostFromSet(instance.getCurrentPlayerJewels, k).ToString + newline);
+                //Worksheet.Print(" Total jewels " + instance.getTotalJewels.ToString + newline);
+                //Worksheet.Print(" Total jewels after subtraction" + addCostToSet(instance.getTotalJewels, k).ToString + newline);
+                //end
+                //Worksheet.Print("Properties available: " + instance.getTotalProperties.ToString);
+                //Worksheet.Print("Instance before allPropertyBuys:" + newline + instance.getPosition.ToString);
+                //Worksheet.Print("Size before addition: " + instance.getCurrentPlayerProperties[Ruby].Size.ToString);
+                //Worksheet.Print("Size after addition: " + addPropertyToPlayer(instance, Property(5,Ruby,5,0,3,0,0)).getCurrentPlayerProperties[Ruby].Size.ToString);;
+                //Worksheet.Print("Total property size before addition: " + instance.getTotalProperties.Size.ToString);
+                //Worksheet.Print("Total property size after addition: " + addPropertyToPlayer(instance, Property(5,Ruby,5,0,3,0,0)).getTotalProperties.Size.ToString);
+                //Worksheet.Print(addPropertyToSet(Property(0,Ruby,0,1,1,1,0), instance.getCurrentPlayerProperties[Ruby]).ToString);
+                //removePropertyFromSet(Property(0,Ruby,2,0,1,0,0), instance.getCurrentPlayerProperties[Ruby]);
+                //Worksheet.Print("Current Player Ruby Properites: " + instance.getCurrentPlayerProperties[Ruby].ToString);
+                //Worksheet.Print(removePropertyFromSet(Property(0,Ruby,2,0,1,0,0), instance.getCurrentPlayerProperties[Ruby]).ToString);
+                //Worksheet.Print("Current player: " + instance.getCurrentPlayer.ToString);
+                //Worksheet.Print("Current player properties: " + instance.getCurrentPlayerProperties.ToString);
+                //Worksheet.Print(canBuyProprerty(instance.getCurrentPlayerJewels, instance.getCurrentPlayerProperties, Property(2,Diamond,2,0,0,0,0)));
+                //possibleOptions.AddAll(allThreeCombinations(cPJewels, oPJewels, jewels));
+                //possibleOptions.AddAll(takeTwoJewels(cPJewels, oPJewels, jewels));
+                //Worksheet.Print(allTwoCombinationsWithJewel(cPJewels, oPJewels, tempJewels, Ruby));
+                //Worksheet.Print(allThreeCombinationsWithJewel(cPJewels, oPJewels, tempJewels, Ruby));
+                //Worksheet.Print(allThreeCombinations(cPJewels, oPJewels, jewels));
+                //Worksheet.Print(allTwoCombinations(cPJewels, oPJewels, jewels));
+                //Worksheet.Print(allThreeCombinationsWithEx(cPJewels, oPJewels, tempJewels, {Ruby, Emerald}))
+                //Worksheet.Print(allTwoCombinationsWithEx(cPJewels, oPJewels, tempJewels, emptyPiles(tempJewels)));
+                //Worksheet.Print(allTwoCombinationsWithEx(cPJewels, oPJewels, tempJewels, emptyPiles(tempJewels)));
+                //Worksheet.Print(allCombinationsWhileNonEmpty(cPJewels, oPJewels, tempJewels));
+                //Worksheet.Print(allCombinationsWhileNonEmpty(cPJewels, oPJewels, {Ruby => 0, Emerald => 0, Sapphire => 0, Diamond => 0, Obsidian => 4}));
+                //Worksheet.Print(addTwoSameJewelsOption(cPJewels, oPJewels, tempJewels, Ruby));
+                //Worksheet.Print(takeDoubleJewel(cPJewels, oPJewels, tempJewels))
+                //Worksheet.Print(addOneJewelOption(cPJewels, oPJewels, tempJewels, Ruby, cPPoints, oPPoints, tempProperties, cPProperties, oPProperties));
+                //addOneJewelOption(cPJewels, oPJewels, tempJewels, Ruby, cPPoints, oPPoints, tempProperties, cPProperties, oPProperties);
+                //addCombination(cPJewels, oPJewels, tempJewels, cPPoints, oPPoints, tempProperties, cPProperties, oPProperties);
+                //possibleOptions.AddAll(allCombinationsWhileNonEmpty(cPJewels, oPJewels, tempJewels, cPPoints, oPPoints, tempProperties, cPProperties, oPProperties));
+                //Worksheet.Print(instance.getPosition);
+                //Worksheet.Print(addTwoSameJewelsOption(instance, Ruby));
+                //Worksheet.Print(emptyPiles(instance.getCurrentPlayerJewels));
+                //Worksheet.Print(emptyPiles(instance.getTotalJewels));
+                //Worksheet.Print(allTwoCombinationsWithJewel(instance, Ruby));
+                //Worksheet.Print(allThreeCombinationsWithJewel(instance, Ruby));
+                //Worksheet.Print(allThreeCombinationsWithEx(instance, {Ruby, Emerald, Sapphire}));
+                //Worksheet.Print(addCombination(instance));
+                //Worksheet.Print(instance.updateInstance(newCPPts => 7).getPosition);
+                //Worksheet.Print(allTwoCombinationsWithEx(instance, {Ruby, Emerald}));
+                //Worksheet.Print(allTwoCombinations(instance));
+                //Worksheet.Print(allThreeCombinations(instance));
+                //almostEmptyJewelSet := {Ruby => 0, Emerald => 0, Sapphire => 0, Diamond => 1, Obsidian => 1};
+                //almostEmptyInstance := SplendorInstance(pLJewels,pRJewels, almostEmptyJewelSet, pLPoints, pRPoints, tP, pLProperties, pRProperties, player);
+                //Worksheet.Print(almostEmptyInstance.getPosition);
+                //Worksheet.Print(addRemainingJewel(almostEmptyInstance));
+                //Worksheet.Print(takeDoubleJewel(instance));
+                //Worksheet.Print(allCombinationsWhileNonEmpty(instance));
+                //Worksheet.Print(allThreeCombinationsWithEx(instance, {Ruby}));
+                //allThreeCombinationsWithEx(instance, {Ruby, Emerald, Sapphire});
+                //options.AddAll(allCombinationsWhileNonEmpty(instance));
+                //Worksheet.Print(currentPlayerBuyingPowerJewel(instance.getCurrentPlayerJewels, instance.getCurrentPlayerProperties, Emerald).ToString);
+                //currentPlayerBuyingPowerJewel(instance.getCurrentPlayerJewels, instance.getCurrentPlayerProperties, Emerald);
+//            end
+//            return options;
+//        elseif player == Player.Right then
+//            instance := SplendorInstance(pRJewels, pLJewels, jewels, pRPoints, pLPoints, properties, pRProperties, pLProperties, player);
+//            if gameOver(instance) == false then
+//            //Worksheet.Print(allTwoCombinations(instance));
+//            //Worksheet.Print(allTwoCombinationsWithEx(instance, {Ruby, Emerald}));
+//            //possibleOptions.AddAll(allCombinationsWhileNonEmpty(cPJewels, oPJewels, tempJewels));
+//                //possibleOptions := takeThreeJewels(cPJewels, oPJewels, jewels);
+//                //pLJ, pRJ, j, pLP, pRP, pr, pLPr, pRPr
+//                //possibleOptions.AddAll(allCombinationsWhileNonEmpty(cPJewels, oPJewels, tempJewels, cPPoints, oPPoints, tempProperties, cPProperties, oPProperties));
+//                //Worksheet.Print(allThreeCombinations(instance));
+//                //options.AddAll(allCombinationsWhileNonEmpty(instance));
+//            end
+//            return options;
+//        end
+    end
+
+    override property ToString.get
+    
+    o := io();
+    leftPlayerPoints := "Louise's Points: " + o.newline + pLPoints.ToString + o.newline;
+    rightPlayerPoints := "Richard's Points: " + o.newline + pRPoints.ToString + o.newline;
+    pointsString := leftPlayerPoints + rightPlayerPoints + o.separator;
+    
+    pLOver15 := pLPoints >= 15;
+    pROver15 := pRPoints >= 15;
+    
+    isPlayerLDone := "Player L Points over 15?: " + pLOver15.ToString + o.newline;
+    isPlayerRDone := "Player R Points over 15?: " + pROver15.ToString + o.newline;
+    
+    playersDone := isPlayerLDone + isPlayerRDone + o.separator;
+    
+    leftPlayerPropertiesSize := 0;
+    rightPlayerPropertiesSize := 0;
+    // Loop to get property sizes
+    for k in jewelTypes do
+        leftPlayerPropertiesSize := leftPlayerPropertiesSize + pLProperties[k].Size;
+        rightPlayerPropertiesSize := rightPlayerPropertiesSize + pRProperties[k].Size;
+    end
+    propertiesString := "Total Properties: " + o.newline + properties.ToString + o.newline + o.separator;
+    leftPlayerPropertiesSizeString := "Louise's Properties Size: " + leftPlayerPropertiesSize.ToString + o.newline;
+    rightPlayerPropertiesSizeString := "Richard's Properties Size: " + rightPlayerPropertiesSize.ToString + o.newline;
+    playerPropertySizes := leftPlayerPropertiesSizeString + rightPlayerPropertiesSizeString + o.separator;
+    leftPlayerProperties := "Louise's Properties: " + o.newline + pLProperties.ToString + o.newline + o.separator;
+    rightPlayerProperties := "Richard's Properties: " + o.newline + pRProperties.ToString + o.newline + o.separator;
+    lJewels := "Louise Jewels" + o.newline + "Rubies:" + pLJewels[Jewel.Ruby].ToString + " Emeralds: " + pLJewels[Jewel.Emerald].ToString + " Sapphires: " + pLJewels[Jewel.Sapphire].ToString + " Diamonds: " + pLJewels[Jewel.Diamond].ToString + "Obsidian:  " + pLJewels[Jewel.Obsidian].ToString + o.newline + o.separator;
+    rJewels := "Richard Jewels" + o.newline + "Rubies:" + pRJewels[Jewel.Ruby].ToString + " Emeralds: " + pRJewels[Jewel.Emerald].ToString + " Sapphires: " + pRJewels[Jewel.Sapphire].ToString + " Diamonds: " + pRJewels[Jewel.Diamond].ToString + "Obsidian:  " + pRJewels[Jewel.Obsidian].ToString + o.newline + o.separator;
+    tJewels := "Total Jewels" + o.newline + "Rubies:" + jewels[Jewel.Ruby].ToString + " Emeralds: " + jewels[Jewel.Emerald].ToString + " Sapphires: " + jewels[Jewel.Sapphire].ToString + " Diamonds: " + jewels[Jewel.Diamond].ToString + "Obsidian:  " + jewels[Jewel.Obsidian].ToString + o.newline + o.separator;
+    return pointsString + playersDone + tJewels + lJewels + rJewels + propertiesString + playerPropertySizes + leftPlayerProperties + rightPlayerProperties;
+    //return "                            Splendor                                  Player L Jewels - Rubies:" + pLJewels[Jewel.Ruby].ToString + " Emeralds: " + pLJewels[Jewel.Emerald].ToString + " Sapphires: " + pLJewels[Jewel.Sapphire].ToString + " Diamonds: " + pLJewels[Jewel.Diamond].ToString + "Obsidian:  " + pLJewels[Jewel.Obsidian].ToString + "                        Player R Jewels - Rubies:" + pRJewels[Jewel.Ruby].ToString + " Emeralds: " + pRJewels[Jewel.Emerald].ToString + " Sapphires: " + pRJewels[Jewel.Sapphire].ToString + " Diamonds: " + pRJewels[Jewel.Diamond].ToString + "Obsidian:  " + pRJewels[Jewel.Obsidian].ToString + "                        Total Jewels - Rubies:" + jewels[Jewel.Ruby].ToString + " Emeralds: " + jewels[Jewel.Emerald].ToString + " Sapphires: " + jewels[Jewel.Sapphire].ToString + " Diamonds: " + jewels[Jewel.Diamond].ToString + "Obsidian:  " + jewels[Jewel.Obsidian].ToString + "";
+    end
+end
+
